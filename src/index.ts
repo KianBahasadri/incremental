@@ -1,7 +1,10 @@
 import { Application, Sprite } from 'pixi.js';
-//import { MainMenu } from './mainmenu';
+import { MainMenu } from './mainmenu';
+import { ShopMenu } from './shopmenu';
+import { Component } from './components';
 
-const app = new Application<HTMLCanvasElement>({
+const app = new Application();
+app.init({
     view: document.getElementById("pixi-canvas") as HTMLCanvasElement,
     resolution: window.devicePixelRatio || 1,
     autoDensity: true,
@@ -10,12 +13,14 @@ const app = new Application<HTMLCanvasElement>({
     height: innerHeight
 });
 
-/*
-(async function() {
-    await MainMenu(app);
-});
-*/
+MainMenu(app);
+let components: Component[] = [];
+let shop: ShopMenu = new ShopMenu(app);
+app.stage.addChild(shop);
 
+let andGate: Component = Component.from("and-gate.png");
+components.push(andGate);
+shop.addComponent(andGate);
 
 for (let i = 0; i < 10; i++)
 {
@@ -48,6 +53,11 @@ function createBunny(x: number, y: number)
     // Add it to the stage
     app.stage.addChild(bunny);
 }
+
+
+
+
+
 
 let dragTarget: any = null;
 
